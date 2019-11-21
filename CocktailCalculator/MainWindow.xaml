@@ -1,0 +1,287 @@
+﻿<Window x:Class="CocktailCalculator.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CocktailCalculator"
+        xmlns:ctrls="clr-namespace:Common.WPF.Controls;assembly=Common"
+        mc:Ignorable="d"
+        Title="{DynamicResource MainWindowTitle}"
+        Height="500" MinHeight="550" MaxHeight="700"
+        Width="600" MinWidth="650" MaxWidth="800">
+
+    <Window.Resources>
+        <ResourceDictionary>
+
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Resources\StringDictionary.en.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <!--Background brushes-->
+            <Brush x:Key="Surround">AliceBlue</Brush>
+            <Brush x:Key="Input">AliceBlue</Brush>
+            <Brush x:Key="Result">#F0F0F0F0</Brush>
+            <Brush x:Key="Error">MistyRose</Brush>
+
+            <!-- Into the styles below is used self binding - binding to "proxy" property of the the target control (the control to which the style is applied).
+            This approach requires that "proxy" property (FrameworkElement.Tag is the most appropriate) of the target control to be binded to the particular view model property
+            which will be consumed into the styles. Most flexibility will be achieved if the "proxy" property is binded to the entire view model object. In that way we can
+            choose which particular view model property to be used into the style triggers etc. That approach can caus problems if INotifyDataErrorInfo is used into the view model
+            but there is a simple solution - set ValidatesOnNotifyDataErrors=False. Example for entire view model binding: Tag="{Binding ValidatesOnNotifyDataErrors=False}" -->
+
+            <Style x:Key="QuantityStateMarker" TargetType="ctrls:DoubleBox">
+                <Setter Property="Background" Value="{StaticResource Input}" />
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding Path=Tag.IsQuantityUnknown, RelativeSource={RelativeSource Self}}" Value="True">
+                        <Setter Property="Background" Value="{StaticResource Result}" />
+                        <Setter Property="FontWeight" Value="Bold" />
+                        <Setter Property="BorderBrush" Value="Black" />
+                        <Setter Property="BorderThickness" Value="1" />
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding Path=Tag.IsQuantityValid, RelativeSource={RelativeSource Self}}" Value="False">
+                        <Setter Property="Background" Value="{StaticResource Error}" />
+                        <Setter Property="ToolTip" Value="{Binding Path=Tag.QuantityValidationMessage, RelativeSource={RelativeSource Self}}" />
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+
+            <Style x:Key="ConcentrationStateMarker" TargetType="ctrls:DoubleBox">
+                <Setter Property="Background" Value="{StaticResource Input}" />
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding Path=Tag.IsConcentrationUnknown, RelativeSource={RelativeSource Self}}" Value="True">
+                        <Setter Property="Background" Value="{StaticResource Result}" />
+                        <Setter Property="FontWeight" Value="Bold" />
+                        <Setter Property="BorderBrush" Value="Black" />
+                        <Setter Property="BorderThickness" Value="1" />
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding Path=Tag.IsConcentrationValid, RelativeSource={RelativeSource Self}}" Value="False">
+                        <Setter Property="Background" Value="{StaticResource Error}" />
+                        <Setter Property="ToolTip" Value="{Binding Path=Tag.ConcentrationValidationMessage, RelativeSource={RelativeSource Self}}" />
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <!--Application Info-->
+            <RowDefinition Height="auto" />
+            <!--Add,Load,Save btns-->
+            <RowDefinition Height="auto" />
+            <!--Common validation info-->
+            <RowDefinition Height="auto" />
+            <!--Calculation Data-->
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!--Application Info-->
+        <Expander Grid.Column="0" Margin="14,0,5,20" MaxHeight="200" Header="{DynamicResource ApplicationInfoHeader}" ExpandDirection="Down" IsExpanded="False" ToolTip="Application info">
+            <Border BorderBrush="LightGray" Margin="5,0,5,0" BorderThickness="1" CornerRadius="4">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="5" >
+                    <StackPanel Margin="15,0,5,0">
+                        <TextBlock Text="Ver. 1.0.0 released at 22.11.2019 by Kuzman Marinov" Margin="0,0,0,5" TextWrapping="Wrap" FontWeight="Bold" FontStyle="Italic" />
+
+                        <TextBlock Text="{DynamicResource QuickStartGuide}" Margin="0,0,0,2" TextWrapping="Wrap" FontSize="14" FontWeight="Bold" />
+                        <TextBlock Text="{DynamicResource Step1}" TextWrapping="Wrap" />
+                        <TextBlock Text="{DynamicResource Step2}" TextWrapping="Wrap" />
+                        <TextBlock Text="{DynamicResource Step3}" TextWrapping="Wrap" />
+                        <TextBlock Text="{DynamicResource Step4}" Margin="0,0,0,5" TextWrapping="Wrap" />
+
+                        <TextBlock Text="{DynamicResource CalculationRules}" Margin="0,0,0,2" TextWrapping="Wrap" FontSize="14" FontWeight="Bold" />
+                        <TextBlock Text="{DynamicResource Rule1}" TextWrapping="Wrap" />
+                        <TextBlock Text="{DynamicResource Rule2}" TextWrapping="Wrap" />
+                        <TextBlock Text="{DynamicResource Rule3}" TextWrapping="Wrap" />
+                        <TextBlock Text="{DynamicResource Rule4}" TextWrapping="Wrap" />
+                        <TextBlock Text="{DynamicResource Rule5}" TextWrapping="Wrap" />
+                        <TextBlock Text="{DynamicResource Rule6}" TextWrapping="Wrap" />
+                        <TextBlock Text="{DynamicResource Rule7}" Margin="0,0,0,10" TextWrapping="Wrap" />
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
+        </Expander>
+
+        <!--Calc,Load,Save-->
+        <Grid Grid.Row="1" Margin="14,0,5,0">
+            <Grid.ColumnDefinitions>
+                <!--Calc-->
+                <ColumnDefinition Width="*" />
+                <!--Load-->
+                <ColumnDefinition Width="auto" />
+                <!--Save-->
+                <ColumnDefinition Width="auto" />
+            </Grid.ColumnDefinitions>
+
+            <Button Content="{DynamicResource CalculateBtn}" Grid.Column="0" Margin="2,0,2,0" Height="40" FontSize="22" FontWeight="Bold"
+                    Command="{Binding CalculateCommand}"/>
+
+            <Button Content="{DynamicResource LoadBtn}" Grid.Column="1" Margin="2,0,2,0" Width="100" Height="40" FontSize="22"
+                    Command="{Binding LoadDataCommand}"/>
+
+            <Button Content="{DynamicResource SaveBtn}" Grid.Column="2" Margin="2,0,30,0" Width="100" Height="40" FontSize="22"
+                    Command="{Binding SaveDataCommand}"/>
+        </Grid>
+
+        <!--Common validation info-->
+        <ScrollViewer Grid.Row="2" Margin="15,0,12,0" Height="60" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <TextBlock TextWrapping="Wrap" Margin="0,0,15,0" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="15" Foreground="Firebrick"
+                       Text="{Binding Path=ValidationMessage}" />
+        </ScrollViewer>
+
+        <!--Calculation Data-->
+        <GroupBox Header="{DynamicResource CalculationDataHeader}" Grid.Row="3" Margin="5,0,5,5">
+            <ScrollViewer ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <!-- Total line -->
+                        <RowDefinition Height="Auto"/>
+                        <!-- Table headers -->
+                        <RowDefinition Height="Auto"/>
+                        <!-- Table content -->
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Total line-->
+                    <!-- Grid.Margin tunes the misalignment betwen headers and content. The misalignment is result of ListBox ItemContainer left and right padding -->
+                    <Grid Grid.Row="0" Margin="6 4 23 0">
+                        <Grid.ColumnDefinitions>
+                            <!--Description-->
+                            <ColumnDefinition Width="*" MinWidth="100"/>
+                            <!--Quantity-->
+                            <ColumnDefinition Width="130"/>
+                            <!--Alc. (%)-->
+                            <ColumnDefinition Width="130"/>
+                            <!--Add btn-->
+                            <ColumnDefinition Width="32"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!--Total Description-->
+                        <TextBox Text="{Binding Path=Total.Description, Mode=OneWay}" Grid.Column="0" IsReadOnly="True" Height="30" Margin="1" VerticalContentAlignment="Center" Background="{StaticResource Surround}"/>
+
+                        <!--Total  Quantity-->
+                        <StackPanel Grid.Column="1" Margin="1" Orientation="Horizontal" Background="{StaticResource Surround}">
+                            <CheckBox Content="" Margin="3,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"
+                                      IsChecked="{Binding Path=Total.IsQuantityUnknown, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <ctrls:DoubleBox Height="30" Width="104" FontSize="15"
+                                             Style="{StaticResource QuantityStateMarker}"
+                                             Tag="{Binding Total, ValidatesOnNotifyDataErrors=False}"
+                                             Value="{Binding Path=Total.Quantity, StringFormat=F1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >
+                                <ctrls:DoubleBox.InputBindings>
+                                    <KeyBinding Command="{Binding Path=DataContext.CalculateCommand, RelativeSource={RelativeSource AncestorType=ScrollViewer}}" Key="Enter" />
+                                </ctrls:DoubleBox.InputBindings>
+                            </ctrls:DoubleBox>
+                        </StackPanel>
+
+                        <!--Total  Alc. (%)-->
+                        <StackPanel Grid.Column="2" Margin="1" Orientation="Horizontal" Background="{StaticResource Surround}">
+                            <CheckBox Content="" Margin="3,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"
+                                      IsChecked="{Binding Path=Total.IsConcentrationUnknown, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <ctrls:DoubleBox Height="30" Width="104" FontSize="15"
+                                             Style="{StaticResource ConcentrationStateMarker}"
+                                             Tag="{Binding Total, ValidatesOnNotifyDataErrors=False}"
+                                             Value="{Binding Path=Total.Concentration, StringFormat=F1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >
+                                <ctrls:DoubleBox.InputBindings>
+                                    <KeyBinding Command="{Binding Path=DataContext.CalculateCommand, RelativeSource={RelativeSource AncestorType=ScrollViewer}}" Key="Enter" />
+                                </ctrls:DoubleBox.InputBindings>
+                            </ctrls:DoubleBox>
+                        </StackPanel>
+
+                        <!--Add-->
+                        <Button Grid.Column="3" Height="30" Margin="1" Background="{StaticResource Surround}"
+                                ToolTip="{DynamicResource AddBtnToolTip}"
+                                Command="{Binding AddIngredientCommand}">
+                            <Image Stretch="None" VerticalAlignment="Center" HorizontalAlignment="Center" Source="/CocktailCalculator;component/Media/add_color.png"/>
+                        </Button>
+                    </Grid>
+
+                    <!-- Table headers -->
+                    <!-- Grid.Margin tunes the misalignment betwen headers and content. The misalignment is result of ListBox ItemContainer left and right padding -->
+                    <Grid Grid.Row="1" Margin="6 4 23 0">
+                        <Grid.ColumnDefinitions>
+                            <!--Description-->
+                            <ColumnDefinition Width="*" MinWidth="100"/>
+                            <!--Quantity-->
+                            <ColumnDefinition Width="130"/>
+                            <!--Alc. (%)-->
+                            <ColumnDefinition Width="130"/>
+                            <!--Delete btn-->
+                            <ColumnDefinition Width="32"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Column="0" Text="{DynamicResource ColumnHeaderDescription}" TextAlignment="Center" Margin="1" Padding="0 2 0 0" Height="22" FontWeight="Bold" Background="{StaticResource Result}"/>
+                        <TextBlock Grid.Column="1" Text="{DynamicResource ColumnHeaderQuantity}" TextAlignment="Center" Margin="1" Padding="0 2 0 0" Height="22" FontWeight="Bold" Background="{StaticResource Result}"/>
+                        <TextBlock Grid.Column="2" Text="{DynamicResource ColumnHeaderConcentration}" TextAlignment="Center" Margin="1" Padding="0 2 0 0" Height="22" FontWeight="Bold" Background="{StaticResource Result}"/>
+                        <TextBlock Grid.Column="3" Text="+/-" TextAlignment="Center" Margin="1" Padding="0 2 0 0" Height="22" FontWeight="Bold" Background="{StaticResource Result}"/>
+                    </Grid>
+
+                    <!-- Table content -->
+                    <ListBox Grid.Row="2" VirtualizingStackPanel.VirtualizationMode="Recycling"
+                             BorderThickness="0" HorizontalContentAlignment="Stretch" 
+                             ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Visible"
+                             ItemsSource="{Binding Path=Ingredients, Mode=OneWay}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid  x:Name="mappingItem" ShowGridLines="False">
+                                    <Grid.ColumnDefinitions>
+                                        <!--Description-->
+                                        <ColumnDefinition Width="*"  MinWidth="100"/>
+                                        <!--Quantity-->
+                                        <ColumnDefinition Width="130"/>
+                                        <!--Alc. (%)-->
+                                        <ColumnDefinition Width="130"/>
+                                        <!--Delete btn-->
+                                        <ColumnDefinition Width="32"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <!--Description-->
+                                    <TextBox Grid.Column="0" Height="30" Margin="1" VerticalContentAlignment="Center" Background="{StaticResource Surround}"
+                                             Text="{Binding Path=Description, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
+
+                                    <!--Quantity-->
+                                    <StackPanel Grid.Column="1" Margin="1" Orientation="Horizontal" Background="{StaticResource Surround}">
+                                        <CheckBox Content="" Margin="3,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"
+                                                  IsChecked="{Binding Path=IsQuantityUnknown, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                        <ctrls:DoubleBox Height="30" Width="104" FontSize="15"
+                                                         Style="{StaticResource QuantityStateMarker}"
+                                                         Tag="{Binding ValidatesOnNotifyDataErrors=False}"
+                                                         Value="{Binding Path=Quantity, StringFormat=F1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >
+                                            <ctrls:DoubleBox.InputBindings>
+                                                <KeyBinding Command="{Binding Path=DataContext.CalculateCommand, RelativeSource={RelativeSource AncestorType=ScrollViewer}}" Key="Enter" />
+                                            </ctrls:DoubleBox.InputBindings>
+                                        </ctrls:DoubleBox>
+                                    </StackPanel>
+
+                                    <!--Alc. (%)-->
+                                    <StackPanel Grid.Column="2" Margin="1" Orientation="Horizontal" Background="{StaticResource Surround}">
+                                        <CheckBox Content="" Margin="3,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"
+                                                  IsChecked="{Binding Path=IsConcentrationUnknown, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                        <ctrls:DoubleBox Height="30" Width="104" FontSize="15"
+                                                         Style="{StaticResource ConcentrationStateMarker}"
+                                                         Tag="{Binding ValidatesOnNotifyDataErrors=False}"
+                                                         Value="{Binding Path=Concentration, StringFormat=F1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >
+                                            <ctrls:DoubleBox.InputBindings>
+                                                <KeyBinding Command="{Binding Path=DataContext.CalculateCommand, RelativeSource={RelativeSource AncestorType=ScrollViewer}}" Key="Enter" />
+                                            </ctrls:DoubleBox.InputBindings>
+                                        </ctrls:DoubleBox>
+                                    </StackPanel>
+
+                                    <!--Delete-->
+                                    <Button Grid.Column="3" Height="30" Margin="1" Background="{StaticResource Surround}"
+                                             Command="{Binding Path=DataContext.DeleteIngredientCommand, RelativeSource={RelativeSource AncestorType=ScrollViewer}}"
+                                             CommandParameter="{Binding ElementName=mappingItem, ValidatesOnNotifyDataErrors=False, Path=DataContext}">
+                                        <Button.ToolTip>
+                                            <ToolTip Content="{Binding Path=Description, Mode=OneWay}" ContentStringFormat="{DynamicResource DeleteBtnToolTip}"/>
+                                        </Button.ToolTip>
+                                        <Image Stretch="None" VerticalAlignment="Center" HorizontalAlignment="Center" Source="/CocktailCalculator;component/Media/delete_color.png"/>
+                                    </Button>
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Grid>
+            </ScrollViewer>
+        </GroupBox>
+
+    </Grid>
+</Window>

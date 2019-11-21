@@ -1,0 +1,49 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+
+    <system:String x:Key="MainWindowTitle">Коктейл Калкулатор</system:String>
+    
+    <system:String x:Key="ApplicationInfoHeader">Информация за приложението</system:String>
+
+    <system:String x:Key="QuickStartGuide">Кратко ръководство</system:String>
+    <system:String x:Key="Step1">1.	Избери неизвестните полета за изчисление.</system:String>
+    <system:String x:Key="Step2">2.	Задай валидни стойности на всички неизбрани полета.</system:String>
+    <system:String x:Key="Step3">3.	Натисни бутона Изчисли.</system:String>
+    <system:String x:Key="Step4">4.	Не карай пил.</system:String>
+
+    <system:String x:Key="CalculationRules">Правила за изчисление</system:String>
+    <system:String x:Key="Rule1">•	Избраните неизвестни полета трябва да са точно две.</system:String>
+    <system:String x:Key="Rule2">•	Всеки две полета могат да бъдат избрани, но не повече от една Алк. концентрация.</system:String>
+    <system:String x:Key="Rule3">•	Смислено изчисление може да бъде направено, ако има поне две съставки.</system:String>
+    <system:String x:Key="Rule4">•	Валидна Алк. концентрация е между 0 и 100.</system:String>
+    <system:String x:Key="Rule5">•	Валидно количество е всяко положително число.</system:String>
+    <system:String x:Key="Rule6">•	Всички стойности за количество, трябва да са в една и съща мерна единица.</system:String>
+    <system:String x:Key="Rule7">•	Изчисленият резултат може да съдържа NaN или отрицателни стойности, ако входните данни не са физически възможни. Например: Очаква се по-висока крайна концентрация от съставки с по-ниска такава.</system:String>
+
+    <system:String x:Key="CalculateBtn">Изчисли</system:String>
+    <system:String x:Key="LoadBtn">Зареди</system:String>
+    <system:String x:Key="SaveBtn">Запази</system:String>
+    
+    <system:String x:Key="CalculationDataHeader">Данни за изчисление</system:String>
+
+    <system:String x:Key="AddBtnToolTip">Добави нова съставка.</system:String>
+    <system:String x:Key="DeleteBtnToolTip">Изтрий: {0}.</system:String>
+
+    <system:String x:Key="ColumnHeaderDescription">Описание</system:String>
+    <system:String x:Key="ColumnHeaderQuantity">Количество</system:String>
+    <system:String x:Key="ColumnHeaderConcentration">Алк. (%)</system:String>
+
+    <system:String x:Key="Total">Общо</system:String>
+    <system:String x:Key="Water">Вода</system:String>
+    <system:String x:Key="StrongAlcohol">Силен алкохол</system:String>
+
+    <system:String x:Key="IngredientsCountError">Минимум две съставки са необходими за смислено изчисление!</system:String>
+    <system:String x:Key="ExcessiveSelectionsError">Избрани са твърде много неизвестни стойности. Изчислението е неопределено и невъзможно. Очакваните неизвестни стойности са две!</system:String>
+    <system:String x:Key="InsufficientSelectionsError">Избрана е само една неизвестна стойност. Изчислението е преопределено и неправилно. Очакваните неизвестни стойности са две!</system:String>
+    <system:String x:Key="ExcessiveConcentrationSelectionsError">Избрани са твърде много неизвестни концентрации. Изчислението е неопределено и невъзможно. Само една концентрация може да бъде неизвестна!</system:String>
+
+    <system:String x:Key="QuantityError">Невалидно количество. Очаква се положителна стойност!</system:String>
+    <system:String x:Key="ConcentrationError">Невалидна концентрация. Очакваната стойност е между 0 и 100!</system:String>
+
+</ResourceDictionary>

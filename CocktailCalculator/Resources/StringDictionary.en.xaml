@@ -1,0 +1,49 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+
+    <system:String x:Key="MainWindowTitle">Cocktail Calculator</system:String>
+    
+    <system:String x:Key="ApplicationInfoHeader">Application Info</system:String>
+
+    <system:String x:Key="QuickStartGuide">Quick start guide</system:String>
+    <system:String x:Key="Step1">1.	Select the unknown fields for calculation.</system:String>
+    <system:String x:Key="Step2">2.	Set valid values to not selected fields.</system:String>
+    <system:String x:Key="Step3">3.	Press Calculate button.</system:String>
+    <system:String x:Key="Step4">4.	Do not drink and drive.</system:String>
+
+    <system:String x:Key="CalculationRules">Calculation rules</system:String>
+    <system:String x:Key="Rule1">•	Selected unknown fields must be exact two.</system:String>
+    <system:String x:Key="Rule2">•	Any two fields could be selected but not more than one Alc. concentration.</system:String>
+    <system:String x:Key="Rule3">•	Meaningful calculation could be done if there are at least two ingredients.</system:String>
+    <system:String x:Key="Rule4">•	Valid Alc. concentration is between 0 and 100.</system:String>
+    <system:String x:Key="Rule5">•	Valid quantity is any positive number.</system:String>
+    <system:String x:Key="Rule6">•	Аll quantity values must be of the same unit of measure.</system:String>
+    <system:String x:Key="Rule7">•	Calculated result could consist NaN or negative values if the input data configuration is not physically possible. E.g. expected higher total concentration from ingredients with a lower concentration.</system:String>
+
+    <system:String x:Key="CalculateBtn">Calculate</system:String>
+    <system:String x:Key="LoadBtn">Load</system:String>
+    <system:String x:Key="SaveBtn">Save</system:String>
+    
+    <system:String x:Key="CalculationDataHeader">Calculation Data</system:String>
+
+    <system:String x:Key="AddBtnToolTip">Add new ingredient.</system:String>
+    <system:String x:Key="DeleteBtnToolTip">Delete: {0}.</system:String>
+
+    <system:String x:Key="ColumnHeaderDescription">Description</system:String>
+    <system:String x:Key="ColumnHeaderQuantity">Quantity</system:String>
+    <system:String x:Key="ColumnHeaderConcentration">Alc. (%)</system:String>
+
+    <system:String x:Key="Total">Total</system:String>
+    <system:String x:Key="Water">Water</system:String>
+    <system:String x:Key="StrongAlcohol">Strong аlcohol</system:String>
+
+    <system:String x:Key="IngredientsCountError">Minimum two ingredients are required for meaningful calculation!</system:String>
+    <system:String x:Key="ExcessiveSelectionsError">Too many unknown values selected. Calculation is indeterminate and impossible. Expected selections are two!</system:String>
+    <system:String x:Key="InsufficientSelectionsError">Only one unknown value selected. Calculation is over-determinate and incorrect. Expected selections are two!</system:String>
+    <system:String x:Key="ExcessiveConcentrationSelectionsError">Too many unknown concentrations selected. Calculation is indeterminate and impossible. Only one concentration could be unknown!</system:String>
+
+    <system:String x:Key="QuantityError">Invalid quantity. Expected positive value!</system:String>
+    <system:String x:Key="ConcentrationError">Invalid concentration. Expected value is between 0 and 100!</system:String>
+    
+</ResourceDictionary>
