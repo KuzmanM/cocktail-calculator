@@ -1,0 +1,49 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+
+    <system:String x:Key="MainWindowTitle">Cocktail Rechner</system:String>
+
+    <system:String x:Key="ApplicationInfoHeader">Info zur Anwendung</system:String>
+
+    <system:String x:Key="QuickStartGuide">Schnellanleitung</system:String>
+    <system:String x:Key="Step1">1.	Wähle die zum Ausrechnen unbekannten Felder aus.</system:String>
+    <system:String x:Key="Step2">2.	Gebe gültige Werte ein für die nicht ausgewählten Felder.</system:String>
+    <system:String x:Key="Step3">3.	Taste “Berechnen” drücken.</system:String>
+    <system:String x:Key="Step4">4.	Fahre nicht, wenn du getrunken hast!</system:String>
+
+    <system:String x:Key="CalculationRules">Kalkulationsregeln</system:String>
+    <system:String x:Key="Rule1">•	Die unbekannten Felder müssen genau 2 sein.</system:String>
+    <system:String x:Key="Rule2">•	Beliebige zwei Felder dürfen gewählt werden, aber nicht mehr als eine Alk. Konzentration.</system:String>
+    <system:String x:Key="Rule3">•	Sinnvoller Satz ergibt sich aus mindestens 2 Zutaten.</system:String>
+    <system:String x:Key="Rule4">•	Gültig ist Alk. Konzentration zwischen 0 und 100.</system:String>
+    <system:String x:Key="Rule5">•	Gültig ist jede Menge mit positiver Zahl.</system:String>
+    <system:String x:Key="Rule6">•	Alle quantitative Werte müssen in der gleichen Maßeinheit sein.</system:String>
+    <system:String x:Key="Rule7">•	Das Endergebnis kann NaN oder negative Werte beinhalten, wenn die ursprünglichen Angaben physikalisch nicht möglich sind. Zum Beispiel: es wird eine höhere End-Konzentration von Zutaten erwartet, die eine Niedrigere solche haben.</system:String>
+
+    <system:String x:Key="CalculateBtn">Berechnen</system:String>
+    <system:String x:Key="LoadBtn">Laden</system:String>
+    <system:String x:Key="SaveBtn">Speichern</system:String>
+
+    <system:String x:Key="CalculationDataHeader">Angaben zur Berechnung</system:String>
+
+    <system:String x:Key="AddBtnToolTip">Neuer Zutat hinzufügen.</system:String>
+    <system:String x:Key="DeleteBtnToolTip">Löschen: {0}.</system:String>
+
+    <system:String x:Key="ColumnHeaderDescription">Beschreibung</system:String>
+    <system:String x:Key="ColumnHeaderQuantity">Quantität</system:String>
+    <system:String x:Key="ColumnHeaderConcentration">Alk. (%)</system:String>
+
+    <system:String x:Key="Total">Gesamt</system:String>
+    <system:String x:Key="Water">Wasser</system:String>
+    <system:String x:Key="StrongAlcohol">Starker Alkohol</system:String>
+
+    <system:String x:Key="IngredientsCountError">Minimum zwei Zutaten sind notwendig für eine sinnvolle Berechnung!</system:String>
+    <system:String x:Key="ExcessiveSelectionsError">Es wurden zu viele unbekannte Werte gewählt. Die Berechnung ist undefinierbar und unmöglich. Vorgesehen sind zwei unbekannte Werte!</system:String>
+    <system:String x:Key="InsufficientSelectionsError">Es wurde nur einen unbekannten Wert gewählt. Die Berechnung ist vordefiniert und nicht korrekt. Vorgesehen sind zwei unbekannte Werte!</system:String>
+    <system:String x:Key="ExcessiveConcentrationSelectionsError">Es wurden zu viele unbekannten Konzentrationen gewählt. Berechnung undefinierbar und unmöglich. Es darf nur eine unbekannte Konzentration geben!</system:String>
+
+    <system:String x:Key="QuantityError">Ungültige Quantität. Erwarteter Wert wird positiv!</system:String>
+    <system:String x:Key="ConcentrationError">Ungültige Konzentration. Erwarteter Wert ist zwischen 0 und 100!</system:String>
+
+</ResourceDictionary>

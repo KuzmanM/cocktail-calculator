@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="23" d:DesignWidth="50">
     <Grid>
-        <TextBox Name="numericBox" TextChanged="numericBox_TextChanged" PreviewTextInput="numericBox_PreviewTextInput" LostFocus="numericBox_LostFocus"
+        <TextBox Name="numericBox" Loaded="numericBox_Loaded" TextChanged="numericBox_TextChanged" PreviewTextInput="numericBox_PreviewTextInput" LostFocus="numericBox_LostFocus"
                  Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl}}"
                  Background="{Binding Background, RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl}}"
                  FontSize="{Binding FontSize, RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl}}"

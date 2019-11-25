@@ -48,37 +48,37 @@ namespace CocktailCalculator
         /// </summary>
         public IngredientModel Total { get; private set; }
 
-        private bool _isValid;
+        private bool _isSystemOfEquationsValid;
         /// <summary>
-        /// Gets true if the calculation data are valid.
-        /// Only cooperative rules are validated, the individual value validation are not related to that property.
+        /// Gets true if the system of equations is valid.
+        /// Only cooperative rules are validated, the individual values validation are not related to that property.
         /// </summary>
-        public bool IsValid
+        public bool IsSystemOfEquationsValid
         {
-            get { return _isValid; }
+            get { return _isSystemOfEquationsValid; }
             set
             {
-                if (_isValid != value)
+                if (_isSystemOfEquationsValid != value)
                 {
-                    _isValid = value;
+                    _isSystemOfEquationsValid = value;
                     RisePropertyChanged();
                 }
             }
         }
 
-        private string _validationMessage;
+        private string _systemOfEquationsValidationMessage;
         /// <summary>
-        /// Gets some info if the calculation data are not valid.
-        /// Related to cooperative validation rules only. The individual value validation rules are not included.
+        /// Gets info about system of equations validity.
+        /// Related to cooperative validation rules only. The individual values validation rules are not included.
         /// </summary>
-        public string ValidationMessage
+        public string SystemOfEquationsValidationMessage
         {
-            get { return _validationMessage; }
+            get { return _systemOfEquationsValidationMessage; }
             set
             {
-                if (_validationMessage != value)
+                if (_systemOfEquationsValidationMessage != value)
                 {
-                    _validationMessage = value;
+                    _systemOfEquationsValidationMessage = value;
                     RisePropertyChanged();
                 }
             }
@@ -137,7 +137,7 @@ namespace CocktailCalculator
             DeleteIngredientCommand = new Command(DeleteIngredientCommandHandler, DeleteMappingItemCommandCanExecute);
 
             // Validate
-            Validate();
+            ValidateSystemOfEquations();
         }
 
         #endregion
@@ -180,7 +180,7 @@ namespace CocktailCalculator
         /// <returns>True if execution is enabled</returns>
         private bool CalculateCommandCanExecute(object parameter)
         {
-            bool areAllDataValid = AreAllModelsInValidState();
+            bool areAllDataValid = IsValid();
             return areAllDataValid;
         }
 
@@ -262,7 +262,7 @@ namespace CocktailCalculator
         /// <returns>True if execution is enabled</returns>
         private bool SaveDataCommandCanExecute(object parameter)
         {
-            bool areAllDataValid = AreAllModelsInValidState();
+            bool areAllDataValid = IsValid();
             return areAllDataValid;
         }
 
@@ -276,7 +276,7 @@ namespace CocktailCalculator
             IngredientModel ingredient = new IngredientModel(_view, string.Empty, 0, 0);
             ingredient.PropertyChanged += IngredientChangedEventHandler;
             Ingredients.Add(ingredient);
-            Validate();
+            ValidateSystemOfEquations();
         }
 
         /// <summary>
@@ -305,7 +305,7 @@ namespace CocktailCalculator
 
                 // Rmove the item from the list
                 Ingredients.RemoveAt(itemIndex);
-                Validate();
+                ValidateSystemOfEquations();
             }
         }
 
@@ -324,10 +324,12 @@ namespace CocktailCalculator
         #region Validate
 
         /// <summary>
-        /// Validate current model
+        /// Validate system of equations
+        /// Related to cooperative validation rules only. The individual values validation rules are not included.
         /// </summary>
-        private void Validate()
+        private void ValidateSystemOfEquations()
         {
+            // Error messages
             string ingredientsCountMsg = (string)_view.Resources["IngredientsCountError"];
             string excessiveSelectionsMsg = (string)_view.Resources["ExcessiveSelectionsError"];
             string insufficientSelectionsMsg = (string)_view.Resources["InsufficientSelectionsError"];
@@ -336,7 +338,7 @@ namespace CocktailCalculator
             // Current validation error message
             string validationMsg = null;
 
-            // Validation 1
+            // Validate unknown values count
             UVCountValidationResult countValidationResult = Calculator.GetUnknownValuesCountState(Ingredients, Total);
             switch (countValidationResult)
             {
@@ -353,39 +355,39 @@ namespace CocktailCalculator
                     break;
             }
 
-            // Validation 2
+            // Validation ingredients count
             if (Ingredients.Count() < 2)
                 validationMsg = ingredientsCountMsg;
 
-            // Set the validation error if exist or clean
+            // Set the validation error if exist or clean all errors of the model
             if(validationMsg == null)
             {
-                ValidationMessage = null;
-                IsValid = true;
+                SystemOfEquationsValidationMessage = null;
+                IsSystemOfEquationsValid = true;
                 CleanErrors(true);
             }
             else
             {
-                ValidationMessage = validationMsg;
-                IsValid = false;
+                SystemOfEquationsValidationMessage = validationMsg;
+                IsSystemOfEquationsValid = false;
                 AddError(validationMsg, string.Empty);
             }
         }
 
         /// <summary>
-        /// Check if all models are in valid state
+        /// Check if everything is in valid state (all models)
         /// </summary>
         /// <returns></returns>
-        private bool AreAllModelsInValidState()
+        private bool IsValid()
         {
             //bool hasIngredientError = Ingredients.Any(i => i.HasErrors);
             //bool canExecute = !(hasIngredientError || Total.HasErrors || HasErrors);
 
-            bool invalidIngredient = Ingredients.Any(i => !i.IsQuantityValid || !i.IsConcentrationValid);
-            bool invalidTotal = !Total.IsQuantityValid || !Total.IsConcentrationValid;
-            bool areAllDataValid = !(invalidIngredient || invalidTotal || !IsValid);
+            bool invalidIngredientItem = Ingredients.Any(i => !i.IsQuantityValid || !i.IsConcentrationValid);
+            bool invalidTotalItem = !Total.IsQuantityValid || !Total.IsConcentrationValid;
+            bool isValid = !(invalidIngredientItem || invalidTotalItem || !IsSystemOfEquationsValid);
 
-            return areAllDataValid;
+            return isValid;
         }
 
         #endregion
@@ -398,7 +400,7 @@ namespace CocktailCalculator
             string isQuantityUnknownName = nameof(IngredientModel.IsQuantityUnknown);
 
             if (e.PropertyName == isConcentrationUnknownName || e.PropertyName == isQuantityUnknownName)
-                Validate();
+                ValidateSystemOfEquations();
         }
 
         #endregion

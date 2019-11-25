@@ -10,20 +10,79 @@ namespace Common.WPF.Controls
     /// </summary>
     public partial class DoubleBox : UserControl
     {
-        char _numberDecimalSeparator;
+        #region Initialization
+
+        private char _numberDecimalSeparator;
 
         public DoubleBox()
         {
             InitializeComponent();
-
             _numberDecimalSeparator = Thread.CurrentThread.CurrentCulture.NumberFormat.NumberDecimalSeparator[0];
-            numericBox.Text = "0";
-            Value = 0;
         }
+
+        #endregion
+
+        /// <summary>
+        /// Text box value
+        /// </summary>
+        private string TextBoxValue
+        {
+            get { return numericBox.Text; }
+            set
+            {
+                if (numericBox.Text != value)
+                {
+                    numericBox.Text = value;
+                    // the line below is inportant only for numericBox_TextChanged
+                    numericBox.CaretIndex = numericBox.Text.Length;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Set double value to the text box
+        /// </summary>
+        /// <param name="value">double value</param>
+        private void SetTextBoxValue(double value)
+        {
+            string valueBindingStringFormat = GetValueBindingStringFormat();
+            TextBoxValue = value.ToString(valueBindingStringFormat);
+        }
+
+        #region IsReadOnly
+
+        public static readonly DependencyProperty IsReadOnlyProperty =
+            DependencyProperty.Register(nameof(IsReadOnly), typeof(bool), typeof(DoubleBox), new PropertyMetadata(false, new PropertyChangedCallback(OnIsReadOnlyPropertyChanged)));
+
+        /// <summary>
+        /// Is read only
+        /// </summary>
+        public bool IsReadOnly
+        {
+            get
+            {
+                return (bool)GetValue(IsReadOnlyProperty);
+            }
+            set
+            {
+                if (IsReadOnly != value)
+                {
+                    SetValue(IsReadOnlyProperty, value);
+                }
+            }
+        }
+
+        private static void OnIsReadOnlyPropertyChanged(DependencyObject target, DependencyPropertyChangedEventArgs e)
+        {
+            DoubleBox targetControl = target as DoubleBox;
+            targetControl.numericBox.IsReadOnly = (bool)e.NewValue;
+        }
+
+        #endregion
 
         #region Value
 
-        private static readonly DependencyProperty ValueProperty =
+        public static readonly DependencyProperty ValueProperty =
             DependencyProperty.Register(nameof(Value), typeof(double), typeof(DoubleBox), new PropertyMetadata(0.0, new PropertyChangedCallback(OnValuePropertyChanged)));
 
         /// <summary>
@@ -45,28 +104,39 @@ namespace Common.WPF.Controls
             }
         }
 
+        /// <summary>
+        /// "Value" dependency property callback
+        /// </summary>
+        /// <param name="target">target</param>
+        /// <param name="e">arguments</param>
         private static void OnValuePropertyChanged(DependencyObject target, DependencyPropertyChangedEventArgs e)
         {
             DoubleBox targetControl = target as DoubleBox;
-            BindingExpression be = targetControl.GetBindingExpression(ValueProperty);
-            Binding pb = be.ParentBinding;
-            string sf = pb.StringFormat;
-            targetControl.SetTextValue((double)e.NewValue, sf);
+
+            double.TryParse(targetControl.TextBoxValue, out double oldValue);
+            double newValue = (double)e.NewValue;
+
+            if (newValue != oldValue)// avoid infinite recursion 
+                targetControl.SetTextBoxValue(newValue);
         }
 
-        private void SetTextValue(double value, string format)
+        /// <summary>
+        /// Gets StringFormat parameter of "Value" dependency property binding
+        /// </summary>
+        /// <returns>StringFormat</returns>
+        private string GetValueBindingStringFormat()
         {
-            double.TryParse(numericBox.Text, out double oldValue);
-
-            if (value != oldValue)
-                numericBox.Text = value.ToString(format);
+            BindingExpression be = GetBindingExpression(ValueProperty);
+            Binding pb = be?.ParentBinding;
+            string stringFormat = pb?.StringFormat;
+            return stringFormat;
         }
 
         #endregion
 
         #region ValueChanged event
 
-        private static readonly RoutedEvent ValueChangedEvent =
+        public static readonly RoutedEvent ValueChangedEvent =
             EventManager.RegisterRoutedEvent(nameof(ValueChanged), RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(DoubleBox));
 
         /// <summary>
@@ -83,21 +153,20 @@ namespace Common.WPF.Controls
         #region Event Handlers
 
         /// <summary>
-        /// Text box value
+        /// Set the default value of "Value" dependency property to the text box
         /// </summary>
-        private string TextBoxValue
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        private void numericBox_Loaded(object sender, RoutedEventArgs e)
         {
-            get { return numericBox.Text; }
-            set
-            {
-                if (numericBox.Text != value)
-                {
-                    numericBox.Text = value;
-                    numericBox.CaretIndex = numericBox.Text.Length;
-                }
-            }
+            SetTextBoxValue(Value);
         }
 
+        /// <summary>
+        /// As result of text property change, set actual value to "Value" dependency property
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void numericBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (string.IsNullOrEmpty(TextBoxValue))
@@ -105,15 +174,15 @@ namespace Common.WPF.Controls
                 // Set only the dependancy property and leave the text box empty
                 Value = 0;
             }
-            else if (TextBoxValue.StartsWith("-") && TextBoxValue.Length == 1)
+            else if ((TextBoxValue.StartsWith("-") || TextBoxValue.StartsWith("+")) && TextBoxValue.Length == 1)
             {
-                // Set only the dependancy property and leave the '-' character
+                // Set only the dependancy property and accept the '-' or '+' character as correct
                 Value = 0;
             }
             else if (!double.TryParse(TextBoxValue, out double numericBoxValue))
             {
                 // Rollback the value
-                TextBoxValue = Value.ToString();
+                SetTextBoxValue(Value);
             }
             else
             {
@@ -122,17 +191,27 @@ namespace Common.WPF.Controls
             }
         }
 
+        /// <summary>
+        /// Prevent incorrect user input
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void numericBox_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
         {
             char inputCharacter = e.Text[0];
             // Set e.Handled to true if you want to ignore the inputCharacter
-            bool ignoreInputCharacter = !(char.IsDigit(inputCharacter) || inputCharacter == _numberDecimalSeparator || inputCharacter == '-');
+            bool ignoreInputCharacter = !(char.IsDigit(inputCharacter) || inputCharacter == _numberDecimalSeparator || inputCharacter == '-' || inputCharacter == '+');
             e.Handled = ignoreInputCharacter;
         }
 
+        /// <summary>
+        /// Restore the text box value in case that it has been deleted
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         private void numericBox_LostFocus(object sender, RoutedEventArgs e)
         {
-            numericBox.Text = Value.ToString();
+            SetTextBoxValue(Value);
         }
 
         #endregion
