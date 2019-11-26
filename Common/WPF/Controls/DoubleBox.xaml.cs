@@ -49,6 +49,31 @@ namespace Common.WPF.Controls
             TextBoxValue = value.ToString(valueBindingStringFormat);
         }
 
+        #region UpDownStep
+
+        public static readonly DependencyProperty UpDownStepProperty =
+            DependencyProperty.Register(nameof(UpDownStep), typeof(double), typeof(DoubleBox), new PropertyMetadata(1.0));
+
+        /// <summary>
+        /// Step of increasing decreasing value
+        /// </summary>
+        public double UpDownStep
+        {
+            get
+            {
+                return (double)GetValue(UpDownStepProperty);
+            }
+            set
+            {
+                if (UpDownStep != value)
+                {
+                    SetValue(UpDownStepProperty, value);
+                }
+            }
+        }
+
+        #endregion
+
         #region IsReadOnly
 
         public static readonly DependencyProperty IsReadOnlyProperty =
@@ -75,7 +100,19 @@ namespace Common.WPF.Controls
         private static void OnIsReadOnlyPropertyChanged(DependencyObject target, DependencyPropertyChangedEventArgs e)
         {
             DoubleBox targetControl = target as DoubleBox;
-            targetControl.numericBox.IsReadOnly = (bool)e.NewValue;
+            bool newValue = (bool)e.NewValue;
+
+            targetControl.numericBox.IsReadOnly = newValue;
+            if (newValue)
+            {
+                targetControl.btnUp.Visibility = Visibility.Collapsed;
+                targetControl.btnDown.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                targetControl.btnUp.Visibility = Visibility.Visible;
+                targetControl.btnDown.Visibility = Visibility.Visible;
+            }
         }
 
         #endregion
@@ -150,7 +187,7 @@ namespace Common.WPF.Controls
 
         #endregion
 
-        #region Event Handlers
+        #region TextBox Event Handlers
 
         /// <summary>
         /// Set the default value of "Value" dependency property to the text box
@@ -212,6 +249,20 @@ namespace Common.WPF.Controls
         private void numericBox_LostFocus(object sender, RoutedEventArgs e)
         {
             SetTextBoxValue(Value);
+        }
+
+        #endregion
+
+        #region Buttons Event Handlers
+
+        private void btnUp_Click(object sender, RoutedEventArgs e)
+        {
+            Value += UpDownStep;
+        }
+
+        private void btnDown_Click(object sender, RoutedEventArgs e)
+        {
+            Value -= UpDownStep;
         }
 
         #endregion

@@ -5,14 +5,40 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Common.WPF.Controls"
              mc:Ignorable="d" 
-             d:DesignHeight="23" d:DesignWidth="50">
+             d:DesignHeight="24" d:DesignWidth="50">
     <Grid>
-        <TextBox Name="numericBox" Loaded="numericBox_Loaded" TextChanged="numericBox_TextChanged" PreviewTextInput="numericBox_PreviewTextInput" LostFocus="numericBox_LostFocus"
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <TextBox Name="numericBox"
+                 Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"
+                 Loaded="numericBox_Loaded" TextChanged="numericBox_TextChanged" PreviewTextInput="numericBox_PreviewTextInput" LostFocus="numericBox_LostFocus"
                  Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl}}"
                  Background="{Binding Background, RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl}}"
                  FontSize="{Binding FontSize, RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl}}"
                  FontWeight="{Binding FontWeight, RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl}}"
                  FontFamily="{Binding FontFamily, RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl}}"
                  FontStyle="{Binding FontStyle, RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl}}" />
+
+        <Button Name="btnUp"
+                Grid.Column="1" Grid.Row="0" Padding="4" MinWidth="25"
+                Click="btnUp_Click"
+                Background="{Binding Background, RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl}}">
+            <Polygon Points="0,10 5,0 10,10" Stretch="Fill" Stroke="Black" Fill="Black" />
+        </Button>
+
+        <Button Name="btnDown"
+                Grid.Column="1" Grid.Row="1" Padding="4" MinWidth="25"
+                Click="btnDown_Click"
+                Background="{Binding Background, RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl}}">
+            <Polygon Points="0,0 5,10 10,0" Stretch="Fill" Stroke="Black" Fill="Black" />
+        </Button>
     </Grid>
 </UserControl>

@@ -83,7 +83,9 @@
             <Border BorderBrush="LightGray" Margin="5,0,5,0" BorderThickness="1" CornerRadius="4">
                 <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="5" >
                     <StackPanel Margin="15,0,5,0">
-                        <TextBlock Text="Ver. 1.0.0 released at 22.11.2019 by Kuzman Marinov" Margin="0,0,0,5" TextWrapping="Wrap" FontWeight="Bold" FontStyle="Italic" />
+                        <TextBlock Text="Implemended by Kuzman Marinov" TextWrapping="Wrap" FontSize="14" FontWeight="Bold" FontStyle="Italic" />
+                        <TextBlock Text="version:&#x9;&#x9;1.0.0" TextWrapping="Wrap" FontStyle="Italic" />
+                        <TextBlock Text="release date:&#x9;10 December 2019" Margin="0,0,0,10" TextWrapping="Wrap" FontStyle="Italic" />
 
                         <TextBlock Text="{DynamicResource QuickStartGuide}" Margin="0,0,0,2" TextWrapping="Wrap" FontSize="14" FontWeight="Bold" />
                         <TextBlock Text="{DynamicResource Step1}" TextWrapping="Wrap" />
@@ -115,13 +117,13 @@
                 <ColumnDefinition Width="auto" />
             </Grid.ColumnDefinitions>
 
-            <Button Content="{DynamicResource CalculateBtn}" Grid.Column="0" Margin="2,0,2,0" Height="40" FontSize="22" FontWeight="Bold"
+            <Button Content="{DynamicResource CalculateBtn}" Grid.Column="0" Margin="2,0,2,0" Height="40" FontSize="22"
                     Command="{Binding CalculateCommand}"/>
 
-            <Button Content="{DynamicResource LoadBtn}" Grid.Column="1" Margin="2,0,2,0" Width="100" Height="40" FontSize="22"
+            <Button Content="{DynamicResource LoadBtn}" Grid.Column="1" Margin="2,0,2,0" Width="130" Height="40" FontSize="22"
                     Command="{Binding LoadDataCommand}"/>
 
-            <Button Content="{DynamicResource SaveBtn}" Grid.Column="2" Margin="2,0,30,0" Width="100" Height="40" FontSize="22"
+            <Button Content="{DynamicResource SaveBtn}" Grid.Column="2" Margin="2,0,30,0" Width="130" Height="40" FontSize="22"
                     Command="{Binding SaveDataCommand}"/>
         </Grid>
 
@@ -159,13 +161,13 @@
                         </Grid.ColumnDefinitions>
 
                         <!--Total Description-->
-                        <TextBox Text="{Binding Path=Total.Description, Mode=OneWay}" Grid.Column="0" IsReadOnly="True" Height="30" Margin="1" VerticalContentAlignment="Center" Background="{StaticResource Surround}"/>
+                        <TextBox Text="{Binding Path=Total.Description, Mode=OneWay}" Grid.Column="0" IsReadOnly="True" Height="30" FontSize="16" Margin="1" VerticalContentAlignment="Center" Background="{StaticResource Surround}"/>
 
                         <!--Total  Quantity-->
                         <StackPanel Grid.Column="1" Margin="1" Orientation="Horizontal" Background="{StaticResource Surround}">
                             <CheckBox Content="" Margin="3,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"
                                       IsChecked="{Binding Path=Total.IsQuantityUnknown, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                            <ctrls:DoubleBox Height="30" Width="104" FontSize="15"
+                            <ctrls:DoubleBox Height="30" Width="104" FontSize="16"
                                              Style="{StaticResource QuantityStateMarker}"
                                              Tag="{Binding Total, ValidatesOnNotifyDataErrors=False}"
                                              Value="{Binding Path=Total.Quantity, StringFormat=F1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >
@@ -179,7 +181,7 @@
                         <StackPanel Grid.Column="2" Margin="1" Orientation="Horizontal" Background="{StaticResource Surround}">
                             <CheckBox Content="" Margin="3,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"
                                       IsChecked="{Binding Path=Total.IsConcentrationUnknown, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                            <ctrls:DoubleBox Height="30" Width="104" FontSize="15"
+                            <ctrls:DoubleBox Height="30" Width="104" FontSize="16"
                                              Style="{StaticResource ConcentrationStateMarker}"
                                              Tag="{Binding Total, ValidatesOnNotifyDataErrors=False}"
                                              Value="{Binding Path=Total.Concentration, StringFormat=F1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >
@@ -237,14 +239,14 @@
                                     </Grid.ColumnDefinitions>
 
                                     <!--Description-->
-                                    <TextBox Grid.Column="0" Height="30" Margin="1" VerticalContentAlignment="Center" Background="{StaticResource Surround}"
+                                    <TextBox Grid.Column="0" Height="30" FontSize="16" Margin="1" VerticalContentAlignment="Center" Background="{StaticResource Surround}"
                                              Text="{Binding Path=Description, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
 
                                     <!--Quantity-->
                                     <StackPanel Grid.Column="1" Margin="1" Orientation="Horizontal" Background="{StaticResource Surround}">
                                         <CheckBox Content="" Margin="3,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"
                                                   IsChecked="{Binding Path=IsQuantityUnknown, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                                        <ctrls:DoubleBox Height="30" Width="104" FontSize="15"
+                                        <ctrls:DoubleBox Height="30" Width="104" FontSize="16"
                                                          Style="{StaticResource QuantityStateMarker}"
                                                          Tag="{Binding ValidatesOnNotifyDataErrors=False}"
                                                          Value="{Binding Path=Quantity, StringFormat=F1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >
@@ -258,7 +260,7 @@
                                     <StackPanel Grid.Column="2" Margin="1" Orientation="Horizontal" Background="{StaticResource Surround}">
                                         <CheckBox Content="" Margin="3,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"
                                                   IsChecked="{Binding Path=IsConcentrationUnknown, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                                        <ctrls:DoubleBox Height="30" Width="104" FontSize="15"
+                                        <ctrls:DoubleBox Height="30" Width="104" FontSize="16"
                                                          Style="{StaticResource ConcentrationStateMarker}"
                                                          Tag="{Binding ValidatesOnNotifyDataErrors=False}"
                                                          Value="{Binding Path=Concentration, StringFormat=F1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >

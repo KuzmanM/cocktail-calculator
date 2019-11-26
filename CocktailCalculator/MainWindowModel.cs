@@ -138,6 +138,9 @@ namespace CocktailCalculator
 
             // Validate
             ValidateSystemOfEquations();
+
+            // Calculate
+            CalculateIfValid();
         }
 
         #endregion
@@ -277,6 +280,7 @@ namespace CocktailCalculator
             ingredient.PropertyChanged += IngredientChangedEventHandler;
             Ingredients.Add(ingredient);
             ValidateSystemOfEquations();
+            CalculateIfValid();
         }
 
         /// <summary>
@@ -306,6 +310,7 @@ namespace CocktailCalculator
                 // Rmove the item from the list
                 Ingredients.RemoveAt(itemIndex);
                 ValidateSystemOfEquations();
+                CalculateIfValid();
             }
         }
 
@@ -396,11 +401,37 @@ namespace CocktailCalculator
 
         private void IngredientChangedEventHandler(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
+            // IngrеdientModel property names important for calculation and validation  
             string isConcentrationUnknownName = nameof(IngredientModel.IsConcentrationUnknown);
             string isQuantityUnknownName = nameof(IngredientModel.IsQuantityUnknown);
+            string quantityName = nameof(IngredientModel.Quantity);
+            string concentrationName = nameof(IngredientModel.Concentration);
 
+            // ValidateSystemOfEquations
             if (e.PropertyName == isConcentrationUnknownName || e.PropertyName == isQuantityUnknownName)
                 ValidateSystemOfEquations();
+
+            // Calculate if data are changed
+            IngredientModel senderIngredientModel = sender as IngredientModel;
+            if (senderIngredientModel != null
+                && (
+                        e.PropertyName == isConcentrationUnknownName
+                     || e.PropertyName == isQuantityUnknownName
+                     || (e.PropertyName == quantityName && !senderIngredientModel.IsQuantityUnknown)
+                     || (e.PropertyName == concentrationName && !senderIngredientModel.IsConcentrationUnknown)
+                   )
+               )
+                CalculateIfValid();
+        }
+
+        /// <summary>
+        /// Execute calculate if data are valid
+        /// </summary>
+        private void CalculateIfValid()
+        {
+            bool isValid = IsValid();// TO DO -> Consider using of Calculator.Validate(Ingredients, Total); as more independent solution
+            if (isValid)
+                Calculator.Calculate(Ingredients, Total);
         }
 
         #endregion
