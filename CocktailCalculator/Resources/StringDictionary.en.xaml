@@ -8,7 +8,7 @@
 
     <system:String x:Key="QuickStartGuide">Quick start guide</system:String>
     <system:String x:Key="Step1">1.	Select the unknown fields for calculation.</system:String>
-    <system:String x:Key="Step2">2.	Set valid values to not selected fields.</system:String>
+    <system:String x:Key="Step2">2.	Set valid values to unselected fields.</system:String>
     <system:String x:Key="Step3">3.	Press Calculate button.</system:String>
     <system:String x:Key="Step4">4.	Do not drink and drive.</system:String>
 
@@ -40,7 +40,7 @@
 
     <system:String x:Key="IngredientsCountError">Minimum two ingredients are required for meaningful calculation!</system:String>
     <system:String x:Key="ExcessiveSelectionsError">Too many unknown values selected. Calculation is indeterminate and impossible. Expected selections are two!</system:String>
-    <system:String x:Key="InsufficientSelectionsError">Only one unknown value selected. Calculation is over-determinate and incorrect. Expected selections are two!</system:String>
+    <system:String x:Key="InsufficientSelectionsError">Only one unknown value selected. Calculation is over-determinate and incorrect. Expected unknown values are two!</system:String>
     <system:String x:Key="ExcessiveConcentrationSelectionsError">Too many unknown concentrations selected. Calculation is indeterminate and impossible. Only one concentration could be unknown!</system:String>
 
     <system:String x:Key="QuantityError">Invalid quantity. Expected positive value!</system:String>

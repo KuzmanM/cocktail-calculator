@@ -1,0 +1,49 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+
+    <system:String x:Key="MainWindowTitle">Коктел Калкулатор</system:String>
+    
+    <system:String x:Key="ApplicationInfoHeader">Информација за апликацијата</system:String>
+
+    <system:String x:Key="QuickStartGuide">Кратко упатство</system:String>
+    <system:String x:Key="Step1">1.	Изберете ги непознатите полиња за пресметка.</system:String>
+    <system:String x:Key="Step2">2.	Поставете валидни вредности во неизбраните полиња.</system:String>
+    <system:String x:Key="Step3">3.	Притиснете го копчето пресметај.</system:String>
+    <system:String x:Key="Step4">4.	Не возете пијани.</system:String>
+
+    <system:String x:Key="CalculationRules">Правила за пресметување</system:String>
+    <system:String x:Key="Rule1">•	Избраните непознати полиња треба да бидат точно две.</system:String>
+    <system:String x:Key="Rule2">•	Секои две полиња можат да бидат изберени, но не повеќе од една Алк. концентрација.</system:String>
+    <system:String x:Key="Rule3">•	Значајна пресметка може да биде направена, ако има најмалку две составки.</system:String>
+    <system:String x:Key="Rule4">•	Валидна Алк. концентрација е помеѓу 0 и 100.</system:String>
+    <system:String x:Key="Rule5">•	Валидна количина е било кој позитивен број.</system:String>
+    <system:String x:Key="Rule6">•	Сите вредности за количина, треба да бидат во една и иста единица мерка.</system:String>
+    <system:String x:Key="Rule7">•	Пресметаниот резултат може да содржи NaN или негативни вредности, ако влезните податоци не се физички возможни. Пример: Се очекува повисока вкупна концентрација от состојки со пониска концентрација.</system:String>
+
+    <system:String x:Key="CalculateBtn">Пресметај</system:String>
+    <system:String x:Key="LoadBtn">Вчитај</system:String>
+    <system:String x:Key="SaveBtn">Зачувај</system:String>
+
+    <system:String x:Key="CalculationDataHeader">Податоци за пресметување</system:String>
+
+    <system:String x:Key="AddBtnToolTip">Додај нова состојка.</system:String>
+    <system:String x:Key="DeleteBtnToolTip">Избришaj: {0}.</system:String>
+
+    <system:String x:Key="ColumnHeaderDescription">Опис</system:String>
+    <system:String x:Key="ColumnHeaderQuantity">Количина</system:String>
+    <system:String x:Key="ColumnHeaderConcentration">Алк. (%)</system:String>
+
+    <system:String x:Key="Total">Вкупно</system:String>
+    <system:String x:Key="Water">Вода</system:String>
+    <system:String x:Key="StrongAlcohol">Силен алкохол</system:String>
+
+    <system:String x:Key="IngredientsCountError">Минимум две сосотјки се потребни за значајна пресметка!</system:String>
+    <system:String x:Key="ExcessiveSelectionsError">Избeрени се премногу непознати вредности. Пресметката е неодредена и невозможна. Oчекуваните непознати вредности се две!</system:String>
+    <system:String x:Key="InsufficientSelectionsError">Изберена е само една непозната вредност. Пресметката е предефенирана и неправилна. Oчекуваните непознати вредности се две!</system:String>
+    <system:String x:Key="ExcessiveConcentrationSelectionsError">Изберени се премногу непознати концентрации. Пресметката е неодредена и невозможна. Само една концентрација може да биде непозната!</system:String>
+
+    <system:String x:Key="QuantityError">Невалидна количина. Се очекува позитивна вредност!</system:String>
+    <system:String x:Key="ConcentrationError">Невалидна концентрација. Очекуваната вредност е помеѓу 0-100!</system:String>
+
+</ResourceDictionary>

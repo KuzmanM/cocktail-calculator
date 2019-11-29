@@ -35,8 +35,6 @@
                     <DataTrigger Binding="{Binding Path=Tag.IsQuantityUnknown, RelativeSource={RelativeSource Self}}" Value="True">
                         <Setter Property="Background" Value="{StaticResource Result}" />
                         <Setter Property="FontWeight" Value="Bold" />
-                        <Setter Property="BorderBrush" Value="Black" />
-                        <Setter Property="BorderThickness" Value="1" />
                         <Setter Property="IsReadOnly" Value="True" />
                     </DataTrigger>
                     <DataTrigger Binding="{Binding Path=Tag.IsQuantityValid, RelativeSource={RelativeSource Self}}" Value="False">
@@ -52,8 +50,6 @@
                     <DataTrigger Binding="{Binding Path=Tag.IsConcentrationUnknown, RelativeSource={RelativeSource Self}}" Value="True">
                         <Setter Property="Background" Value="{StaticResource Result}" />
                         <Setter Property="FontWeight" Value="Bold" />
-                        <Setter Property="BorderBrush" Value="Black" />
-                        <Setter Property="BorderThickness" Value="1" />
                         <Setter Property="IsReadOnly" Value="True" />
                     </DataTrigger>
                     <DataTrigger Binding="{Binding Path=Tag.IsConcentrationValid, RelativeSource={RelativeSource Self}}" Value="False">
