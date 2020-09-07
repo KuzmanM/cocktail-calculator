@@ -1,4 +1,5 @@
 ﻿using Common.WPF;
+using System.ComponentModel;
 
 namespace CocktailCalculator
 {
@@ -179,9 +180,10 @@ namespace CocktailCalculator
         /// <param name="description">Ingredient description</param>
         /// <param name="quantity">Ingredient quantity</param>
         /// <param name="concentration">Concentration</param>
+        /// <param name="changedEventHandler">Property changed event handler</param>
         /// <param name="isQuantityUnknown">Is Quantity selected as unknown</param>
         /// <param name="isConcentrationUnknown">Is Concentration selected as unknown</param>
-        public IngredientModel(MainWindow view, string description, double quantity, double concentration, bool isQuantityUnknown = false, bool isConcentrationUnknown = false)
+        public IngredientModel(MainWindow view, string description, double quantity, double concentration, PropertyChangedEventHandler changedEventHandler, bool isQuantityUnknown = false, bool isConcentrationUnknown = false)
         {
             _view = view;
 
@@ -192,6 +194,9 @@ namespace CocktailCalculator
             _isQuantityUnknown = isQuantityUnknown;
             _isConcentrationUnknown = isConcentrationUnknown;
 
+            if (changedEventHandler != null)
+                PropertyChanged += changedEventHandler;
+
             ValidateQuantity();
             ValidateConcentration();
         }
@@ -201,8 +206,9 @@ namespace CocktailCalculator
         /// </summary>
         /// <param name="view">Model view</param>
         /// <param name="ingredient">Simple Ingredient object</param>
-        public IngredientModel(MainWindow view, Ingredient ingredient) : 
-            this(view, ingredient.Description, ingredient.Quantity, ingredient.Concentration, ingredient.IsQuantityUnknown, ingredient.IsConcentrationUnknown)
+        /// <param name="changedEventHandler">Property changed event handler</param>
+        public IngredientModel(MainWindow view, Ingredient ingredient, PropertyChangedEventHandler changedEventHandler) : 
+            this(view, ingredient.Description, ingredient.Quantity, ingredient.Concentration, changedEventHandler, ingredient.IsQuantityUnknown, ingredient.IsConcentrationUnknown)
         { }
 
         /// <summary>
@@ -211,11 +217,15 @@ namespace CocktailCalculator
         /// <param name="ingredient">simple ingredient object</param>
         public void SetSimpleIngredient(Ingredient ingredient)
         {
-            Description = ingredient.Description;
-            Quantity = ingredient.Quantity;
-            Concentration = ingredient.Concentration;
-            IsQuantityUnknown = ingredient.IsQuantityUnknown;
-            IsConcentrationUnknown = ingredient.IsConcentrationUnknown;
+            _description = ingredient.Description;
+            _quantity = ingredient.Quantity;
+            _concentration = ingredient.Concentration;
+
+            _isQuantityUnknown = ingredient.IsQuantityUnknown;
+            _isConcentrationUnknown = ingredient.IsConcentrationUnknown;
+
+            ValidateQuantity();
+            ValidateConcentration();
         }
 
         #endregion

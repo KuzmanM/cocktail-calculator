@@ -104,9 +104,9 @@ namespace CocktailCalculator
                 Ingredient total = fileItems[0];
                 IEnumerable<IngredientModel> ingredients = fileItems
                     .GetRange(1, fileItems.Count - 1)
-                    .Select(i => new IngredientModel(view, i));
+                    .Select(i => new IngredientModel(view, i, IngredientChangedEventHandler));
 
-                Total = new IngredientModel(view, total);
+                Total = new IngredientModel(view, total, IngredientChangedEventHandler);
                 Ingredients = new ObservableCollection<IngredientModel>(ingredients);
             }
             else
@@ -114,20 +114,15 @@ namespace CocktailCalculator
 
                 string totalStr =(string)_view.Resources["Total"];
                 // Total
-                Total = new IngredientModel(view, totalStr, 0, 45, true, false);
+                Total = new IngredientModel(view, totalStr, 0, 45, IngredientChangedEventHandler, true, false);
 
                 // Ingredients
                 string waterStr = (string)_view.Resources["Water"];
-                IngredientModel ingredient1 = new IngredientModel(view, waterStr, 0, 0, true, false);
+                IngredientModel ingredient1 = new IngredientModel(view, waterStr, 0, 0, IngredientChangedEventHandler, true, false);
                 string strongAlcoholStr = (string)_view.Resources["StrongAlcohol"];
-                IngredientModel ingredient2 = new IngredientModel(view, strongAlcoholStr, 30, 60, false, false);
+                IngredientModel ingredient2 = new IngredientModel(view, strongAlcoholStr, 30, 60, IngredientChangedEventHandler, false, false);
                 Ingredients = new ObservableCollection<IngredientModel>(new[] { ingredient1, ingredient2 });
             }
-
-            // Subscribe for Total and Ingredients PropertyChanged event
-            Total.PropertyChanged += IngredientChangedEventHandler;
-            foreach (IngredientModel igr in Ingredients)
-                igr.PropertyChanged += IngredientChangedEventHandler;
 
             // Commands
             CalculateCommand = new Command(CalculateCommandHandler, CalculateCommandCanExecute);
@@ -207,7 +202,7 @@ namespace CocktailCalculator
                 return;
             }
 
-            // Validate
+            // Validate loaded data
             Ingredient total = fileItems[0];
             List<Ingredient> ingredients = fileItems.GetRange(1, fileItems.Count - 1);
             string validationError = Calculator.Validate(ingredients, total);
@@ -221,7 +216,10 @@ namespace CocktailCalculator
             Total.SetSimpleIngredient(total);
             Ingredients.Clear();
             foreach (Ingredient i in ingredients)
-                Ingredients.Add(new IngredientModel(_view, i));
+                Ingredients.Add(new IngredientModel(_view, i, IngredientChangedEventHandler));
+
+            // Calculate
+            CalculateIfValid();
         }
 
         /// <summary>
@@ -276,8 +274,7 @@ namespace CocktailCalculator
         /// <param name="parameter">Parameter of the command handler</param>
         private void AddIngredientCommandHandler(object parameter)
         {
-            IngredientModel ingredient = new IngredientModel(_view, string.Empty, 0, 0);
-            ingredient.PropertyChanged += IngredientChangedEventHandler;
+            IngredientModel ingredient = new IngredientModel(_view, string.Empty, 0, 0, IngredientChangedEventHandler);
             Ingredients.Add(ingredient);
             ValidateSystemOfEquations();
             CalculateIfValid();
@@ -303,8 +300,6 @@ namespace CocktailCalculator
             IngredientModel itemToRemove = parameter as IngredientModel;
             if (itemToRemove != null)
             {
-                itemToRemove.PropertyChanged -= IngredientChangedEventHandler;
-
                 int itemIndex = Ingredients.IndexOf(itemToRemove);
 
                 // Rmove the item from the list
