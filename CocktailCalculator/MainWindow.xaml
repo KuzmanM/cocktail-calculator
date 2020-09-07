@@ -59,6 +59,30 @@
                 </Style.Triggers>
             </Style>
 
+            <ControlTemplate x:Key="QuestionBox" TargetType="{x:Type CheckBox}">
+
+                <Border VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                            HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Background="{TemplateBinding Background}"
+                            Width="{TemplateBinding Width}"
+                            Height="{TemplateBinding Height}">
+                    <ContentPresenter x:Name="content" HorizontalAlignment="Center" VerticalAlignment="Center" Content="{TemplateBinding Content}"/>
+                </Border>
+
+                <ControlTemplate.Triggers>
+                    <Trigger Property="IsChecked" Value="False">
+                        <Setter TargetName="content" Property="Content" Value="{x:Null}" />
+                    </Trigger>
+
+                    <Trigger Property="IsEnabled" Value="False">
+                        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+                    </Trigger>
+                </ControlTemplate.Triggers>
+
+            </ControlTemplate>
+
         </ResourceDictionary>
     </Window.Resources>
 
@@ -161,8 +185,11 @@
 
                         <!--Total  Quantity-->
                         <StackPanel Grid.Column="1" Margin="1" Orientation="Horizontal" Background="{StaticResource Surround}">
-                            <CheckBox Content="" Margin="3,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"
-                                      IsChecked="{Binding Path=Total.IsQuantityUnknown, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <CheckBox Margin="2" Width="20" Height="20"
+                                      CheckBox.Template ="{StaticResource QuestionBox}"
+                                      IsChecked="{Binding Path=Total.IsQuantityUnknown, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                <Image Stretch="None" VerticalAlignment="Center" HorizontalAlignment="Center" Source="/CocktailCalculator;component/Media/question_mark.png"/>
+                            </CheckBox>
                             <ctrls:DoubleBox Height="30" Width="104" FontSize="16"
                                              Style="{StaticResource QuantityStateMarker}"
                                              Tag="{Binding Total, ValidatesOnNotifyDataErrors=False}"
@@ -175,8 +202,11 @@
 
                         <!--Total  Alc. (%)-->
                         <StackPanel Grid.Column="2" Margin="1" Orientation="Horizontal" Background="{StaticResource Surround}">
-                            <CheckBox Content="" Margin="3,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"
-                                      IsChecked="{Binding Path=Total.IsConcentrationUnknown, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <CheckBox Margin="2" Width="20" Height="20"
+                                      CheckBox.Template ="{StaticResource QuestionBox}"
+                                      IsChecked="{Binding Path=Total.IsConcentrationUnknown, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                <Image Stretch="None" VerticalAlignment="Center" HorizontalAlignment="Center" Source="/CocktailCalculator;component/Media/question_mark.png"/>
+                            </CheckBox>
                             <ctrls:DoubleBox Height="30" Width="104" FontSize="16"
                                              Style="{StaticResource ConcentrationStateMarker}"
                                              Tag="{Binding Total, ValidatesOnNotifyDataErrors=False}"
@@ -240,8 +270,11 @@
 
                                     <!--Quantity-->
                                     <StackPanel Grid.Column="1" Margin="1" Orientation="Horizontal" Background="{StaticResource Surround}">
-                                        <CheckBox Content="" Margin="3,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"
-                                                  IsChecked="{Binding Path=IsQuantityUnknown, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                        <CheckBox Margin="2" Width="20" Height="20"
+                                                  CheckBox.Template ="{StaticResource QuestionBox}"
+                                                  IsChecked="{Binding Path=IsQuantityUnknown, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                            <Image Stretch="None" VerticalAlignment="Center" HorizontalAlignment="Center" Source="/CocktailCalculator;component/Media/question_mark.png"/>
+                                        </CheckBox>
                                         <ctrls:DoubleBox Height="30" Width="104" FontSize="16"
                                                          Style="{StaticResource QuantityStateMarker}"
                                                          Tag="{Binding ValidatesOnNotifyDataErrors=False}"
@@ -254,8 +287,11 @@
 
                                     <!--Alc. (%)-->
                                     <StackPanel Grid.Column="2" Margin="1" Orientation="Horizontal" Background="{StaticResource Surround}">
-                                        <CheckBox Content="" Margin="3,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"
-                                                  IsChecked="{Binding Path=IsConcentrationUnknown, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                        <CheckBox Margin="2" Width="20" Height="20"
+                                                  CheckBox.Template ="{StaticResource QuestionBox}"
+                                                  IsChecked="{Binding Path=IsConcentrationUnknown, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                            <Image Stretch="None" VerticalAlignment="Center" HorizontalAlignment="Center" Source="/CocktailCalculator;component/Media/question_mark.png"/>
+                                        </CheckBox>
                                         <ctrls:DoubleBox Height="30" Width="104" FontSize="16"
                                                          Style="{StaticResource ConcentrationStateMarker}"
                                                          Tag="{Binding ValidatesOnNotifyDataErrors=False}"

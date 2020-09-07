@@ -14,6 +14,7 @@
     <None Remove="Media\add_color.png" />
     <None Remove="Media\delete.png" />
     <None Remove="Media\delete_color.png" />
+    <None Remove="Media\question_mark.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -31,6 +32,9 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Media\delete_color.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Media\question_mark.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
