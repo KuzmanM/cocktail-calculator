@@ -1,9 +1,9 @@
 # cocktail-calculator
-Simple calculator of quantity and concentration/temperature when mixing ingredients.
-The calculator could be used successfully for mixing ingredients with different concentration or temperature.
-Any tow values could be selected for calculation.
+Simple calculator of quantity and concentration when mixing ingredients.
+The calculator could be used successfully for mixing ingredients with different concentration.
+Any two values could be selected for calculation.
 
-Note: The concentration value "Alc.(%)" could be used for temperature calculation.
+Note: The concentration value "Alc.(%)" could be used for temperature calculation - mixing ingredients with different temperature.
 
 ![Application screenshot](/images/AppView.png)
 
