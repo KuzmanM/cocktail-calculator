@@ -104,8 +104,8 @@
                 <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="5" >
                     <StackPanel Margin="15,0,5,0">
                         <TextBlock Text="Implemended by Kuzman Marinov" TextWrapping="Wrap" FontSize="14" FontWeight="Bold" FontStyle="Italic" />
-                        <TextBlock Text="version:&#x9;&#x9;1.0.1" TextWrapping="Wrap" FontStyle="Italic" />
-                        <TextBlock Text="release date:&#x9;07 September 2020" Margin="0,0,0,10" TextWrapping="Wrap" FontStyle="Italic" />
+                        <TextBlock Text="version:&#x9;&#x9;1.0.2" TextWrapping="Wrap" FontStyle="Italic" />
+                        <TextBlock Text="release date:&#x9;28 November 2020" Margin="0,0,0,10" TextWrapping="Wrap" FontStyle="Italic" />
 
                         <TextBlock Text="{DynamicResource QuickStartGuide}" Margin="0,0,0,2" TextWrapping="Wrap" FontSize="14" FontWeight="Bold" />
                         <TextBlock Text="{DynamicResource Step1}" TextWrapping="Wrap" />

@@ -226,6 +226,7 @@ namespace CocktailCalculator
 
             ValidateQuantity();
             ValidateConcentration();
+            RisePropertyChanged(string.Empty);
         }
 
         #endregion
